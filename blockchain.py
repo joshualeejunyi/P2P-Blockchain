@@ -156,7 +156,7 @@ class Runner:
             for ip in peerslist:
                 try:
                     sysock = self.createsocket("tcp")
-                    addr = (str(ip[0]), 8080)
+                    addr = (str(ip), 8080)
                     sysock.connect(addr)
                     message = pickle.dumps(self.blockchain)
                     message = bytes(f'{len(message):<10}', "utf-8") + message
