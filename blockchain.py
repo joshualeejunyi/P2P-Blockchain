@@ -146,16 +146,21 @@ class Runner:
                     tsock.close()
 
     def sync(self, peerslist):
-        for ip in peerslist:
-            try:
-                sysock = self.createsocket("tcp")
-                addr = (str(ip[0]), 8080)
-                sysock.connect(addr)
-                message = pickle.dumps(self.blockchain)
-                message = bytes(f'{len(message):<10}', "utf-8") + message
-                sysock.sendall(message)
-            finally:
-                sysock.close()
+        if len(peerslist) != 0:
+            for ip in peerslist:
+                try:
+                    sysock = self.createsocket("tcp")
+                    addr = (str(ip[0]), 8080)
+                    sysock.connect(addr)
+                    message = pickle.dumps(self.blockchain)
+                    message = bytes(f'{len(message):<10}', "utf-8") + message
+                    sysock.sendall(message)
+                except:
+                    print("Failed to sync with peer " + str(ip))
+                finally:
+                    sysock.close()
+        else:
+            print("No peers to sync with...")
 
     def keepalive(self):
         while True:
@@ -167,6 +172,7 @@ class Runner:
                         sock = self.createsocket("udp")
                         sock.settimeout(5)
                         sock.bind((self.getint(), 0))
+                        print("\nSending keepalive packet to " + str(ip))
                         sock.sendto(str.encode("stillalive?"), (ip[0], 8080))
                         data, addr = sock.recvfrom(64)
                         data = data.decode("utf-8") 
@@ -178,6 +184,7 @@ class Runner:
                             print("\n" + str(ip) + " hasn't been responding for awhile...")
                             print("\nRemoving from active peers.")
                             self.peers.remove(ip)
+                        
                         x = x + 1
                         sock.close()
                     except Exception as e:
