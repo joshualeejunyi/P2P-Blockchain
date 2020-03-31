@@ -46,7 +46,7 @@ class Runner:
         self.tcplisten.start()
         self.keepalivet = threading.Thread(target=self.keepalive, daemon=True)
         self.keepalivet.start()
-        print("All listeners opened")
+        print("All processes running.")
         
         kb = threading.Thread(target=self.keyboard)
         kb.start()
@@ -99,7 +99,7 @@ class Runner:
     def create(self, data):
         block = Block(data["index"], data["prevhash"], data["data"], data["timestamp"])
         self.blockchain.append(block)
-        print("Block Created.")
+        print("Block Created!")
 
     def listener(self, socktype):
         if socktype == "udp":
@@ -136,12 +136,12 @@ class Runner:
                             fullmsg += data
 
                             if len(fullmsg)-10 == msglen:
-                                print("Block Received from " + str(addr[0]))
+                                print("\nBlock Received from " + str(addr[0]))
                                 data = pickle.loads(fullmsg[10:])
-                                print(data)
+                                # print(data)
                                 self.blockchain = data
                 except Exception as e:
-                    print("Error: " + str(e))
+                    print("\nError: " + str(e))
                 finally:
                     tsock.close()
 
@@ -161,22 +161,27 @@ class Runner:
         while True:
             sleep(30)
             for ip in self.peers:
-                try:
-                    sock = self.createsocket("udp")
-                    sock.settimeout(5)
-                    sock.bind((self.getint(), 0))
-                    sock.sendto(str.encode("stillalive?"), (ip[0], 8080))
-                    data, addr = sock.recvfrom(64)
-                    data = data.decode("utf-8") 
-                    if data == "amalive":
+                x = 0 
+                while x < 2:
+                    try:
+                        sock = self.createsocket("udp")
+                        sock.settimeout(5)
+                        sock.bind((self.getint(), 0))
+                        sock.sendto(str.encode("stillalive?"), (ip[0], 8080))
+                        data, addr = sock.recvfrom(64)
+                        data = data.decode("utf-8") 
+                        if data == "amalive":
+                            x = 3
+                            sock.close()
+                    except socket.timeout:
+                        if x == 2:
+                            print("\n" + str(ip) + " hasn't been responding for awhile...")
+                            print("\nRemoving from active peers.")
+                            self.peers.remove(ip)
+                        x = x + 1
                         sock.close()
-                except socket.timeout:
-                    print(str(ip) + " isn't responding...")
-                    print("Removing from active peers")
-                    self.peers.remove(ip)
-                    sock.close()
-                except Exception as e:
-                    print("Error: " + str(e))
+                    except Exception as e:
+                        print("Error: " + str(e))
         
     def keyboard(self):
         while True:
