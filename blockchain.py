@@ -111,7 +111,8 @@ class Runner:
                 if data == "teamblock":
                     print("\nPeer Connected! IP Address:" + str(addr))
                     ssock.sendto(str.encode("teamblock" + str(self.peers)), addr)
-                    self.peers.append(addr[0])
+                    if addr[0] not in self.peers:
+                        self.peers.append(addr[0])
                     sleep(4)
                     self.sync([addr])
                 elif data == "stillalive?":
@@ -140,7 +141,7 @@ class Runner:
 
                             if len(fullmsg)-10 == msglen:
                                 print("\nSync Received from " + str(addr[0]))
-                                if addr not in self.peers:
+                                if addr[0] not in self.peers:
                                     self.peers.append(addr[0])
                                 data = pickle.loads(fullmsg[10:])
                                 # print(data)
