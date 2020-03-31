@@ -172,7 +172,7 @@ class Runner:
                         sock = self.createsocket("udp")
                         sock.settimeout(5)
                         sock.bind((self.getint(), 0))
-                        print("\nSending keepalive packet to " + str(ip))
+                        # print("\nSending keepalive packet to " + str(ip))
                         sock.sendto(str.encode("stillalive?"), (ip[0], 8080))
                         data, addr = sock.recvfrom(64)
                         data = data.decode("utf-8") 
