@@ -136,7 +136,7 @@ class Runner:
                             fullmsg += data
 
                             if len(fullmsg)-10 == msglen:
-                                print("\nBlock Received from " + str(addr[0]))
+                                print("\nSync Received from " + str(addr[0]))
                                 data = pickle.loads(fullmsg[10:])
                                 # print(data)
                                 self.blockchain = data
@@ -205,7 +205,7 @@ class Runner:
                 print("# of Peers: " + str(len(self.peers)))
                 print("Peers: " + str(self.peers))
                 print("# of Blocks: " + str(len(self.blockchain)))
-            elif command.lower() == "blocks":
+            elif command.lower() == "blocks" or command.lower() == "list":
                 print("Block Info:")
                 print(self.blockchain)
                 for block in self.blockchain:
@@ -242,9 +242,10 @@ class Runner:
                 print("=========================================")
                 print("Commands:")
                 print("add/create: add a new block to the chain")
-                print("blocks: prints all blockchains")
+                print("blocks/list: prints all blocks in the chain")
                 print("help: prints this help menu")
                 print("info: list info of current network and blockchain")
+                print("sync: manual sync request of current blockchain list with peers")
                 print("query: query a particular block in the chain")
                 print("exit: quit application")
             else:
