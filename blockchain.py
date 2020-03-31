@@ -116,6 +116,9 @@ class Runner:
                     self.sync([addr])
                 elif data == "stillalive?":
                     ssock.sendto(str.encode("amalive"), addr)
+                elif data == "amleaving":
+                    print(str(addr) + " has left the chat.")
+                    self.peers.remove(addr)
                 
                 ssock.close()
 
@@ -212,9 +215,10 @@ class Runner:
                 print("# of Peers: " + str(len(self.peers)))
                 print("Peers: " + str(self.peers))
                 print("# of Blocks: " + str(len(self.blockchain)))
-            elif command.lower() == "blocks" or command.lower() == "list":
+            elif command.lower() == "blocks" or command.lower() == "list" or command.lower() == "ls":
+                print("=========================================")
                 print("Block Info:")
-                print(self.blockchain)
+                # print(self.blockchain)
                 for block in self.blockchain:
                     print("=========================================")
                     print("Index: " + str(block.getIndex()))
@@ -243,14 +247,27 @@ class Runner:
                     print("=========================================")
 
             elif command.lower() == "exit":
-                sys.exit()
+                if len(self.peers) == 0:
+                    print("You are the last node on the network. Exiting would destroy the blockchain.")
+                    exitinput = input("Are you sure you want to leave? [y/N]")
+                    if exitinput.lower() != "y":
+                        pass
+                    else:
+                        sys.exit()
+                else:
+                    sock = self.createsocket("udp")        
+                    sock.settimeout(5)
+                    sock.bind((self.getint(), 0))
+                    sock.sendto(str.encode("amleaving"), ("255.255.255.255", 8080))
+                    sys.exit()
+
             elif command.lower() == "help":
                 print("=========================================")
-                print("P2P Blockchain Implementation")
+                print("P2P Blockchain Client")
                 print("=========================================")
                 print("Commands:")
                 print("add/create: add a new block to the chain")
-                print("blocks/list: prints all blocks in the chain")
+                print("blocks/list/ls: prints all blocks in the chain")
                 print("help: prints this help menu")
                 print("info: list info of current network and blockchain")
                 print("sync: manual sync request of current blockchain list with peers")
