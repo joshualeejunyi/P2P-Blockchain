@@ -167,7 +167,7 @@ class Runner:
             sleep(30)
             for ip in self.peers:
                 x = 0 
-                while x < 2:
+                while x < 3:
                     try:
                         sock = self.createsocket("udp")
                         sock.settimeout(5)
