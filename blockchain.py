@@ -118,8 +118,9 @@ class Runner:
                 elif data == "stillalive?":
                     ssock.sendto(str.encode("amalive"), addr)
                 elif data == "amleaving":
-                    print(str(addr) + " has left the chat.")
-                    self.peers.remove(addr[0])
+                    print("\n" + str(addr) + " has left the chat.")
+                    if addr[0] in self.peers:
+                        self.peers.remove(addr[0])
                 
                 ssock.close()
 
@@ -262,6 +263,7 @@ class Runner:
                     sock.settimeout(5)
                     sock.bind((self.getint(), 0))
                     sock.sendto(str.encode("amleaving"), ("255.255.255.255", 8080))
+
                     sys.exit()
 
             elif command.lower() == "help":
