@@ -156,21 +156,17 @@ class Runner:
         if len(peerslist) != 0:
             for ip in peerslist:
                 x = 0
-                while x < 3: 
-                    try:
-                        sysock = self.createsocket("tcp")
-                        addr = (str(ip), 8080)
-                        sysock.connect(addr)
-                        message = pickle.dumps(self.blockchain)
-                        message = bytes(f'{len(message):<10}', "utf-8") + message
-                        sysock.sendall(message)
-                    except:
-                        if x == 2:
-                            print("Failed to sync with peer " + str(ip))
-                        x = x + 1
-                    finally:
-                        x = 3
-                        sysock.close()
+                try:
+                    sysock = self.createsocket("tcp")
+                    addr = (str(ip), 8080)
+                    sysock.connect(addr)
+                    message = pickle.dumps(self.blockchain)
+                    message = bytes(f'{len(message):<10}', "utf-8") + message
+                    sysock.sendall(message)
+                except:
+                    print("Failed to sync with peer " + str(ip))
+                finally:
+                    sysock.close()
         else:
             print("No peers to sync with...")
 
