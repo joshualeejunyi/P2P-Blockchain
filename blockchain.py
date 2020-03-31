@@ -136,7 +136,7 @@ class Runner:
                         data = conn.recv(1024)
                         if data:
                             print(f'msglen: {data[:10]}')
-                            print(data)
+                            # print(data)
                             msglen = int(data[:10])
 
                             fullmsg += data
@@ -146,7 +146,6 @@ class Runner:
                                 if addr[0] not in self.peers:
                                     self.peers.append(addr[0])
                                 data = pickle.loads(fullmsg[10:])
-                                # print(data)
                                 self.blockchain = data
                 except Exception as e:
                     print("\nError: " + str(e))
@@ -250,6 +249,8 @@ class Runner:
                     print("Timestamp: " + str(self.blockchain[index].getTime()))
                     print("Hash: " + str(self.blockchain[index].getHash()))
                     print("=========================================")
+                else:
+                    print("Index given out of range!")
 
             elif command.lower() == "exit":
                 if len(self.peers) == 0:
