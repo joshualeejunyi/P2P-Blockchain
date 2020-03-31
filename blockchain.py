@@ -140,6 +140,8 @@ class Runner:
 
                             if len(fullmsg)-10 == msglen:
                                 print("\nSync Received from " + str(addr[0]))
+                                if addr not in self.peers:
+                                    self.peers.append(addr)
                                 data = pickle.loads(fullmsg[10:])
                                 # print(data)
                                 self.blockchain = data
