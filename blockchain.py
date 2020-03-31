@@ -114,7 +114,7 @@ class Runner:
                     if addr[0] not in self.peers:
                         self.peers.append(addr[0])
                     sleep(4)
-                    self.sync([addr])
+                    self.sync([addr[0]])
                 elif data == "stillalive?":
                     ssock.sendto(str.encode("amalive"), addr)
                 elif data == "amleaving":
@@ -156,10 +156,10 @@ class Runner:
         if len(peerslist) != 0:
             for ip in peerslist:
                 x = 0
-                sysock = self.createsocket("tcp")
-                addr = (str(ip), 8080)
                 while x < 3: 
                     try:
+                        sysock = self.createsocket("tcp")
+                        addr = (str(ip), 8080)
                         sysock.connect(addr)
                         message = pickle.dumps(self.blockchain)
                         message = bytes(f'{len(message):<10}', "utf-8") + message
@@ -169,8 +169,8 @@ class Runner:
                         if x == 2:
                             print("Failed to sync with peer " + str(ip))
                         x = x + 1
-                    
-                sysock.close()
+                    finally:
+                        sysock.close()
         else:
             print("No peers to sync with...")
 
