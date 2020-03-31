@@ -164,12 +164,12 @@ class Runner:
                         message = pickle.dumps(self.blockchain)
                         message = bytes(f'{len(message):<10}', "utf-8") + message
                         sysock.sendall(message)
-                        x = 3
                     except:
                         if x == 2:
                             print("Failed to sync with peer " + str(ip))
                         x = x + 1
                     finally:
+                        x = 3
                         sysock.close()
         else:
             print("No peers to sync with...")
