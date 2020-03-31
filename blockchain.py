@@ -81,7 +81,7 @@ class Runner:
             if data[0:9] == "teamblock":
                 peerslst = ast.literal_eval(data[9:])
                 self.peers = peerslst
-                self.peers.append(addr)
+                self.peers.append(addr[0])
                 sock.close()    
         except socket.timeout:
             print("No peers online.")
@@ -111,14 +111,14 @@ class Runner:
                 if data == "teamblock":
                     print("\nPeer Connected! IP Address:" + str(addr))
                     ssock.sendto(str.encode("teamblock" + str(self.peers)), addr)
-                    self.peers.append(addr)
+                    self.peers.append(addr[0])
                     sleep(4)
                     self.sync([addr])
                 elif data == "stillalive?":
                     ssock.sendto(str.encode("amalive"), addr)
                 elif data == "amleaving":
                     print(str(addr) + " has left the chat.")
-                    self.peers.remove(addr)
+                    self.peers.remove(addr[0])
                 
                 ssock.close()
 
@@ -141,7 +141,7 @@ class Runner:
                             if len(fullmsg)-10 == msglen:
                                 print("\nSync Received from " + str(addr[0]))
                                 if addr not in self.peers:
-                                    self.peers.append(addr)
+                                    self.peers.append(addr[0])
                                 data = pickle.loads(fullmsg[10:])
                                 # print(data)
                                 self.blockchain = data
