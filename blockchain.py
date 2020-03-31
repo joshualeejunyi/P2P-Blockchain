@@ -217,6 +217,7 @@ class Runner:
                     print("Hash: " + str(block.getHash()))
 
             elif command.lower() == "sync":
+                print("Sending sync request...")
                 self.sync(self.peers)
 
             elif command == "":
