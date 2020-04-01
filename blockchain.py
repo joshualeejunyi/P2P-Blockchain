@@ -135,8 +135,6 @@ class Runner:
                         fullmsg = b''
                         data = conn.recv(1024)
                         if data:
-                            print(f'msglen: {data[:10]}')
-                            # print(data)
                             msglen = int(data[:10])
 
                             fullmsg += data
