@@ -12,6 +12,12 @@ class Block:
     def __init__(self, index, prevhash, data, timestamp):
         '''
         Defines Block
+        -------------
+        Parameters:
+        index : int of index
+        prevhash : string of previous hash
+        data : string of data to be stored in the block
+        timestamp : timestamp of blockcreation
         '''
         self.index = index
         self.prevhash = prevhash
@@ -74,6 +80,9 @@ class Runner:
     def createsocket(self, socktype):
         '''
         Function to create a TCP or UDP socket
+        -------------
+        Parameters:
+        socktype : "tcp" or "udp"
         '''
         if socktype == "tcp":
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -140,6 +149,9 @@ class Runner:
     def create(self, data):
         '''
         Creates Block and appends to blockchain list
+        -------------
+        Parameters:
+        data : dict of data for the creation of Block
         '''
         block = Block(data["index"], data["prevhash"], data["data"], data["timestamp"])
         self.blockchain.append(block)
@@ -148,6 +160,9 @@ class Runner:
     def listener(self, socktype):
         '''
         Runs a listener for either tcp or udp packets
+        -------------
+        Parameters:
+        socktype : "tcp" or "udp"
         '''
         if socktype == "udp":
             while True:
@@ -200,6 +215,9 @@ class Runner:
     def sync(self, peerslist):
         '''
         Sends synchronise request
+        -------------
+        Parameters:
+        peerslist : list of peers IP
         '''
         if len(peerslist) != 0:
             for ip in peerslist: # loop through each peer in the peers list
@@ -343,5 +361,8 @@ def exithandler(signal_received, frame):
     sys.exit()
 
 if __name__ == "__main__":
-    signal.signal(signal.SIGINT, exithandler)
-    run = Runner()
+    if len(sys.argv)==2 and sys.argv[1]=='--help':
+        print(__doc__)
+    else :
+        signal.signal(signal.SIGINT, exithandler)
+        run = Runner()
