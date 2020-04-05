@@ -11,13 +11,13 @@ This program only works within the local network (i.e. connection only works bet
 ## Usage
 A command line interface is implemented to allow the creation of block, to query information and to synchronise. 
 ### Command Line
-**add/create** : Add a new block to the chain
-**blocks/list/ls** : Prints all blocks in the chain
-**help** : Prints the help menu
-**info** : List information regarding the current network and blockchain
-**sync** : Manual synchronize request of current blockchain list with peers in the network
-**query** : Query information about a particular block in the chain
-**exit** : Exits program
+**add/create** : Add a new block to the chain  
+**blocks/list/ls** : Prints all blocks in the chain  
+**help** : Prints the help menu  
+**info** : List information regarding the current network and blockchain  
+**sync** : Manual synchronize request of current blockchain list with peers in the network  
+**query** : Query information about a particular block in the chain  
+**exit** : Exits program  
 
 ## Features
 All the features work simultaneously through multi-threading, as such, there is no blocking or waiting before being able to type in commands.
