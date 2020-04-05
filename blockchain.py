@@ -187,30 +187,32 @@ class Runner:
                 ssock.close()
 
         elif socktype == "tcp":
+            tsock = self.createsocket("tcp")
+            tsock.bind((self.getif(), 8080))
+            
             while True:
-                tsock = self.createsocket("tcp")
-                tsock.bind((self.getif(), 8080))
-                tsock.listen()
                 try:
+                    # conn, addr = tsock.accept()
+                    fullmsg = b'' # expect bytes
+                    newmsg = True # getting new message
                     while True:
-                        conn, addr = tsock.accept()
-                        fullmsg = b'' # expect bytes
-                        newmsg = True # getting new message
-                        while True:
-                            data = conn.recv(1024) # recv buffer of 1024
-                            if newmsg:
-                                msglen = int(data[:10]) # check the message length that is prepended to the data
-                                newmsg = False
+                        data = tsock.recv(1024) # recv buffer of 1024
+                        if newmsg:
+                            msglen = int(data[:10]) # check the message length that is prepended to the data
+                            newmsg = False
 
-                            print("\nMessage Length: " + str(msglen))
-                            fullmsg += data
-                            
-                            if len(fullmsg)-10 == msglen: # check if full data received
-                                print("\nSync Received from " + str(addr[0]))
-                                if addr[0] not in self.peers:
-                                    self.peers.append(addr[0])
-                                data = pickle.loads(fullmsg[10:]) # decode the pickle data
-                                self.blockchain = data
+                        print("\nMessage Length: " + str(msglen))
+                        fullmsg += data
+                        
+                        if len(fullmsg)-10 == msglen: # check if full data received
+                            print("\nSync Received from " + str(addr[0]))
+                            if addr[0] not in self.peers:
+                                self.peers.append(addr[0])
+                            data = pickle.loads(fullmsg[10:]) # decode the pickle data
+                            self.blockchain = data
+
+                            newmsg = True
+                            fullmsg = b""
 
                 except Exception as e:
                     print("\nError: " + str(e))
