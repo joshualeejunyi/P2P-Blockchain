@@ -198,12 +198,10 @@ class Runner:
                     while True:
                         data = conn.recv(1024) # recv buffer of 1024
                         if newmsg:
-                            msglen = int.from_bytes(data[:10], byteorder=sys.byteorder) # check the message length that is prepended to the data
+                            msglen = int(data[:10]) # check the message length that is prepended to the data
                             newmsg = False
                             print("\nMessage Length: " + str((msglen)))
 
-                        print("ERM")
-                        return
                         fullmsg += data
                         
                         if len(fullmsg)-10 == msglen: # check if full data received
@@ -215,6 +213,8 @@ class Runner:
                             newmsg = True
                             fullmsg = b''
 
+                except ValueError:
+                    pass
                 except Exception as e:
                     print("\nError: " + str(e))
 
