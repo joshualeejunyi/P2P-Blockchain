@@ -7,6 +7,7 @@ import hashlib
 from time import sleep
 import pickle
 import ast
+import traceback
 
 class Block:
     '''
@@ -216,6 +217,7 @@ class Runner:
                 # except ValueError:
                 #     pass
                 except Exception as e:
+                    print(traceback.format_exc())
                     print("\nError: " + str(e))
 
     def sync(self, peerslist):
