@@ -199,7 +199,9 @@ class Runner:
                     while True:
                         data = conn.recv(1024) # recv buffer of 1024
                         if newmsg:
-                            msglen = int(data[:10].decode("utf-8")) # check the message length that is prepended to the data
+                            decoded = data.decode("utf-8")
+                            msglen = int(decoded[:10])
+                            # msglen = int(data[:10].decode("utf-8")) # check the message length that is prepended to the data
                             newmsg = False
                             print("\nMessage Length: " + str((msglen)))
 
