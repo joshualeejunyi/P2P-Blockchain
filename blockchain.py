@@ -192,11 +192,11 @@ class Runner:
             
             while True:
                 try:
-                    # conn, addr = tsock.accept()
+                    conn, addr = tsock.accept()
                     fullmsg = b'' # expect bytes
                     newmsg = True # getting new message
                     while True:
-                        data = tsock.recv(1024) # recv buffer of 1024
+                        data = conn.recv(1024) # recv buffer of 1024
                         if newmsg:
                             msglen = int(data[:10]) # check the message length that is prepended to the data
                             newmsg = False
