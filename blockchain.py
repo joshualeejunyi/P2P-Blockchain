@@ -200,7 +200,9 @@ class Runner:
                         if newmsg:
                             msglen = int.from_bytes(data[:10], byteorder=sys.byteorder) # check the message length that is prepended to the data
                             newmsg = False
+                            print("\nMessage Length: " + str((msglen)))
 
+                        print("ERM")
                         fullmsg += data
                         
                         if len(fullmsg)-10 == msglen: # check if full data received
