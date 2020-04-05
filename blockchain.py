@@ -199,6 +199,8 @@ class Runner:
                     while True:
                         data = conn.recv(1024) # recv buffer of 1024
                         if newmsg:
+                            print(data[:10])
+                            print(int(data[:10]))
                             msglen = int(data[:10]) # check the message length that is prepended to the data
                             newmsg = False
 
