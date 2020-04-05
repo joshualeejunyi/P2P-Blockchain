@@ -9,6 +9,7 @@ This program uses basic Python 3 libraries. As such, no extra packages are requi
 This program only works within the local network (i.e. connection only works between computers on the same network/subnet). This is because we use UDP Broadcast packets to discover other peers on the network.
 
 ## Usage
+```python3 ./blockchain.py```
 A command line interface is implemented to allow the creation of block, to query information and to synchronise. 
 ### Command Line
 * **add/create** : Add a new block to the chain  
