@@ -201,6 +201,8 @@ class Runner:
 
                             fullmsg += data
 
+                            print("\nFull data: " + msglen)
+
                             if len(fullmsg)-10 == msglen: # check if full data received
                                 print("\nSync Received from " + str(addr[0]))
                                 if addr[0] not in self.peers:
@@ -208,7 +210,7 @@ class Runner:
                                 data = pickle.loads(fullmsg[10:]) # decode the pickle data
                                 self.blockchain = data
                             else:
-                                print("Waiting for full data...")
+                                print("\nWaiting for full data...")
                 except Exception as e:
                     print("\nError: " + str(e))
                 finally:
