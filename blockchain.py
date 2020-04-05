@@ -214,8 +214,6 @@ class Runner:
                             newmsg = True
                             fullmsg = b''
 
-                except ValueError:
-                    pass
                 except Exception as e:
                     print(traceback.format_exc())
                     print("\nError: " + str(e))
