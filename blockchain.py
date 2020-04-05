@@ -232,7 +232,7 @@ class Runner:
                     addr = (str(ip), 8080)
                     sysock.connect(addr)
                     message = pickle.dumps(self.blockchain) # create pickle object from blockchain
-                    message = bytes(f'{str(len(message)):<10}', "utf-8") + message # prepend len of message to the data
+                    message = bytes(f'{len(message):<10}', "utf-8") + message # prepend len of message to the data
                     sysock.sendall(message) 
                 except:
                     print("Failed to sync with peer " + str(ip))
