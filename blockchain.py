@@ -9,16 +9,16 @@ import pickle
 import ast
 
 class Block:
+    '''
+    Block
+    -------------
+    Parameters:
+    index : int of index
+    prevhash : string of previous hash
+    data : string of data to be stored in the block
+    timestamp : timestamp of blockcreation
+    '''
     def __init__(self, index, prevhash, data, timestamp):
-        '''
-        Defines Block
-        -------------
-        Parameters:
-        index : int of index
-        prevhash : string of previous hash
-        data : string of data to be stored in the block
-        timestamp : timestamp of blockcreation
-        '''
         self.index = index
         self.prevhash = prevhash
         self.data = data
@@ -101,7 +101,7 @@ class Runner:
     def getif(self):
         '''
         Gets the interface to bind to the sockets
-        -------------
+        -------------   1
         It's a hacky way to get the interface IP (Depends on the # of interfaces on computer)
         '''
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -206,11 +206,22 @@ class Runner:
                                 if addr[0] not in self.peers:
                                     self.peers.append(addr[0])
                                 data = pickle.loads(fullmsg[10:]) # decode the pickle data
+                                self.processSync(data)
                                 self.blockchain = data
+                            else:
+                                print("Waiting for full data...")
                 except Exception as e:
                     print("\nError: " + str(e))
                 finally:
                     tsock.close()
+    
+    def processSync(self, data):
+        for index in range (0, len(self.blockchain) - 1):
+            print("=========================================")
+            print("Previous Hash: " + str(self.blockchain[index].getPrevHash()))
+            print("Sent Previous Hash: " + str(data[index].getPrevHash()))
+            print(data[index].getPrevHash() == self.blockchain[index].getPrevHash())
+            print("=========================================")
 
     def sync(self, peerslist):
         '''
