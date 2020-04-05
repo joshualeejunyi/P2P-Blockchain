@@ -201,7 +201,7 @@ class Runner:
 
                             fullmsg += data
 
-                            print("\nFull data: " + msglen)
+                            print("\nFull data: " + str(msglen))
 
                             if len(fullmsg)-10 == msglen: # check if full data received
                                 print("\nSync Received from " + str(addr[0]))
