@@ -198,7 +198,7 @@ class Runner:
                     while True:
                         data = conn.recv(1024) # recv buffer of 1024
                         if newmsg:
-                            msglen = int(data[:10]) # check the message length that is prepended to the data
+                            msglen = int.from_bytes(data[:10], byteorder='big', signed=False) # check the message length that is prepended to the data
                             newmsg = False
                             print("\nMessage Length: " + str((msglen)))
 
@@ -232,7 +232,7 @@ class Runner:
                     addr = (str(ip), 8080)
                     sysock.connect(addr)
                     message = pickle.dumps(self.blockchain) # create pickle object from blockchain
-                    message = bytes(f'{str(len(message)):<10}', "utf-8") + message # prepend len of message to the data
+                    message = bytes(f'{len(message):<10}', "utf-8") + message # prepend len of message to the data
                     sysock.sendall(message) 
                 except:
                     print("Failed to sync with peer " + str(ip))
