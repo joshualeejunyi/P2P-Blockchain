@@ -201,7 +201,6 @@ class Runner:
                             msglen = int(data[:10]) # check the message length that is prepended to the data
                             newmsg = False
 
-                        print("\nMessage Length: " + str(msglen))
                         fullmsg += data
                         
                         if len(fullmsg)-10 == msglen: # check if full data received
