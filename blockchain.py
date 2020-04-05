@@ -7,7 +7,6 @@ import hashlib
 from time import sleep
 import pickle
 import ast
-import traceback
 
 class Block:
     '''
@@ -199,9 +198,7 @@ class Runner:
                     while True:
                         data = conn.recv(1024) # recv buffer of 1024
                         if newmsg:
-                            print(data[:10])
-                            print(int(data[:10]))
-                            msglen = int(data[:10]) # check the message length that is prepended to the data
+                            msglen = int.from_bytes(data[:10]) # check the message length that is prepended to the data
                             newmsg = False
 
                         fullmsg += data
@@ -216,7 +213,6 @@ class Runner:
                             fullmsg = b''
 
                 except Exception as e:
-                    print(traceback.format_exc())
                     print("\nError: " + str(e))
 
     def sync(self, peerslist):
