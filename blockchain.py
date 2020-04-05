@@ -203,6 +203,7 @@ class Runner:
                             print("\nMessage Length: " + str((msglen)))
 
                         print("ERM")
+                        return
                         fullmsg += data
                         
                         if len(fullmsg)-10 == msglen: # check if full data received
