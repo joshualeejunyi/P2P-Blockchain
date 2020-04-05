@@ -210,9 +210,8 @@ class Runner:
                                 self.peers.append(addr[0])
                             data = pickle.loads(fullmsg[10:]) # decode the pickle data
                             self.blockchain = data
-
                             newmsg = True
-                            fullmsg = b""
+                            fullmsg = b''
 
                 except Exception as e:
                     print("\nError: " + str(e))
