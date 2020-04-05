@@ -194,23 +194,24 @@ class Runner:
                 try:
                     while True:
                         conn, addr = tsock.accept()
-                        fullmsg = b'' # expect bytes 
-                        data = conn.recv(1024) # recv buffer of 1024
-                        if data:
-                            msglen = int(data[:10]) # check the message length that is prepended to the data
+                        fullmsg = b'' # expect bytes
+                        newmsg = True # getting new message
+                        while True:
+                            data = conn.recv(1024) # recv buffer of 1024
+                            if newmsg:
+                                msglen = int(data[:10]) # check the message length that is prepended to the data
+                                newmsg = False
 
+                            print("\nMessage Length: " + str(msglen))
                             fullmsg += data
-
-                            print("\nFull data: " + str(msglen))
-
+                            
                             if len(fullmsg)-10 == msglen: # check if full data received
                                 print("\nSync Received from " + str(addr[0]))
                                 if addr[0] not in self.peers:
                                     self.peers.append(addr[0])
                                 data = pickle.loads(fullmsg[10:]) # decode the pickle data
                                 self.blockchain = data
-                            else:
-                                print("\nWaiting for full data...")
+
                 except Exception as e:
                     print("\nError: " + str(e))
                 finally:
