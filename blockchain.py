@@ -214,14 +214,6 @@ class Runner:
                     print("\nError: " + str(e))
                 finally:
                     tsock.close()
-    
-    def processSync(self, data):
-        for index in range (0, len(self.blockchain) - 1):
-            print("=========================================")
-            print("Previous Hash: " + str(self.blockchain[index].getPrevHash()))
-            print("Sent Previous Hash: " + str(data[index].getPrevHash()))
-            print(data[index].getPrevHash() == self.blockchain[index].getPrevHash())
-            print("=========================================")
 
     def sync(self, peerslist):
         '''
