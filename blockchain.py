@@ -363,8 +363,5 @@ def exithandler(signal_received, frame):
     sys.exit()
 
 if __name__ == "__main__":
-    if len(sys.argv)==2 and sys.argv[1]=='--help':
-        print(__doc__)
-    else :
-        signal.signal(signal.SIGINT, exithandler)
-        run = Runner()
+    signal.signal(signal.SIGINT, exithandler)
+    run = Runner()
