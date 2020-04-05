@@ -213,8 +213,8 @@ class Runner:
                             newmsg = True
                             fullmsg = b''
 
-                except ValueError:
-                    pass
+                # except ValueError:
+                #     pass
                 except Exception as e:
                     print("\nError: " + str(e))
 
