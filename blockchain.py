@@ -189,7 +189,7 @@ class Runner:
         elif socktype == "tcp":
             tsock = self.createsocket("tcp")
             tsock.bind((self.getif(), 8080))
-            
+            tsock.listen()
             while True:
                 try:
                     conn, addr = tsock.accept()
