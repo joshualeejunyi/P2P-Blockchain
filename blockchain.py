@@ -200,6 +200,8 @@ class Runner:
                         data = conn.recv(1024) # recv buffer of 1024
                         if newmsg:
                             message = data[:10].decode("utf-8").strip()
+                            message = message.strip('')
+                            message = message.strip('\n')
                             print(message)
                             print(type(message))
                             msglen = int(message)
