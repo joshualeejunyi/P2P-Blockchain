@@ -218,6 +218,7 @@ class Runner:
                             self.blockchain = data
                             newmsg = True
                             fullmsg = b''
+                            break
 
                 except Exception as e:
                     print(traceback.format_exc())
