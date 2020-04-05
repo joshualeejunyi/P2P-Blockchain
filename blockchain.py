@@ -206,7 +206,6 @@ class Runner:
                                 if addr[0] not in self.peers:
                                     self.peers.append(addr[0])
                                 data = pickle.loads(fullmsg[10:]) # decode the pickle data
-                                self.processSync(data)
                                 self.blockchain = data
                             else:
                                 print("Waiting for full data...")
