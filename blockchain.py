@@ -202,6 +202,7 @@ class Runner:
                             print(data)
                             print(data[:10])
                             print(data[:10].decode("utf-8"))
+                            print("here: " + data[:10].decode("utf-8").strip() + "/")
                             msglen = int(data[:10])
                             newmsg = False
                             print("\nMessage Length: " + str((msglen)))
