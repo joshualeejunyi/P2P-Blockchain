@@ -191,29 +191,29 @@ class Runner:
             tsock.bind((self.getif(), 8080))
             tsock.listen()
             while True:
-                # try:
-                conn, addr = tsock.accept()
-                fullmsg = b'' # expect bytes
-                newmsg = True # getting new message
-                while True:
-                    data = conn.recv(1024) # recv buffer of 1024
-                    if newmsg:
-                        msglen = int(data[:10]) # check the message length that is prepended to the data
-                        newmsg = False
+                try:
+                    conn, addr = tsock.accept()
+                    fullmsg = b'' # expect bytes
+                    newmsg = True # getting new message
+                    while True:
+                        data = conn.recv(1024) # recv buffer of 1024
+                        if newmsg:
+                            msglen = int.from_bytes(data[:10], byteorder=sys.byteorder) # check the message length that is prepended to the data
+                            newmsg = False
 
-                    fullmsg += data
-                    
-                    if len(fullmsg)-10 == msglen: # check if full data received
-                        print("\nSync Received from " + str(addr[0]))
-                        if addr[0] not in self.peers:
-                            self.peers.append(addr[0])
-                        data = pickle.loads(fullmsg[10:]) # decode the pickle data
-                        self.blockchain = data
-                        newmsg = True
-                        fullmsg = b''
+                        fullmsg += data
+                        
+                        if len(fullmsg)-10 == msglen: # check if full data received
+                            print("\nSync Received from " + str(addr[0]))
+                            if addr[0] not in self.peers:
+                                self.peers.append(addr[0])
+                            data = pickle.loads(fullmsg[10:]) # decode the pickle data
+                            self.blockchain = data
+                            newmsg = True
+                            fullmsg = b''
 
-                # except Exception as e:
-                #     print("\nError: " + str(e))
+                except Exception as e:
+                    print("\nError: " + str(e))
 
     def sync(self, peerslist):
         '''
