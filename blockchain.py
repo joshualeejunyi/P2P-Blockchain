@@ -201,6 +201,7 @@ class Runner:
                         if newmsg:
                             message = data[:10].decode("utf-8").strip()
                             print(message)
+                            print(type(message))
                             msglen = int(message)
                             newmsg = False
                             print("\nMessage Length: " + str((msglen)))
