@@ -216,8 +216,6 @@ class Runner:
 
                 except Exception as e:
                     print("\nError: " + str(e))
-                finally:
-                    tsock.close()
 
     def sync(self, peerslist):
         '''
