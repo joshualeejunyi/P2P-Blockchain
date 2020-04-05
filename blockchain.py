@@ -200,6 +200,7 @@ class Runner:
                         data = conn.recv(1024) # recv buffer of 1024
                         if newmsg:
                             print(data)
+                            print(data[:10])
                             msglen = int(data[:10])
                             newmsg = False
                             print("\nMessage Length: " + str((msglen)))
