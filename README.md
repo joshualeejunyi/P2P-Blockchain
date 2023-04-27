@@ -1,6 +1,8 @@
 # P2P Blockchain Client
 This simple python program discovers and joins a blockchain peer-to-peer network on the current network. If there is no existing blockchain on the network, the program will create the genesis block and start the chain. The node can then create and query information about the blocks in the chain, synchronising with the other peers on the network.
 
+Also yes, I am fully aware that it does not make sense for this to be P2P - that's on SIT. 
+
 ## Requirements
 This program uses basic Python 3 libraries. As such, no extra packages are required to be installed.
 
